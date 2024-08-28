@@ -26,7 +26,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t your-dockerhub-username/pacman-game:${{ github.sha }} .
+        docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/pacman-game:${{ github.sha }} .
     
     - name: Install Trivy
       run: |
@@ -35,14 +35,14 @@ jobs:
 
     - name: Scan Docker image for vulnerabilities
       run: |
-        trivy image --exit-code 1 --severity CRITICAL your-dockerhub-username/pacman-game:${{ github.sha }}
+        trivy image --exit-code 1 --severity CRITICAL ${{ secrets.DOCKER_HUB_USERNAME }}/pacman-game:${{ github.sha }}
 
     - name: Push Docker image to Docker Hub
       if: github.ref == 'refs/heads/main' && success()
       run: |
         echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-        docker push your-dockerhub-username/pacman-game:${{ github.sha }}
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/pacman-game:${{ github.sha }}
 
     - name: Pull and Run the Docker image locally
       run: |
-        docker run -d -p 8080:80 your-dockerhub-username/pacman-game:${{ github.sha }}
+        docker run -d -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/pacman-game:${{ github.sha }}
