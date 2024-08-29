@@ -25,3 +25,13 @@ variable "tags" {
     "Environment" = "dev"
   }
 }
+
+variable "user_data" {
+  type = string
+  default = "./docker-compose.yml"
+}
+
+variable "vpc_security_group_ids" {
+  description = "List of security group IDs to assign to the EC2 instances"
+  type        = list(string)
+}

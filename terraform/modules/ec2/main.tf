@@ -6,6 +6,9 @@ module "ec2_instance" {
   instance_type          = var.instance_type
   key_name               = var.key_name
   monitoring             = var.monitoring
+  vpc_security_group_ids = var.vpc_security_group_ids
+  user_data = var.user_data
+
 
   tags = var.tags
 }
